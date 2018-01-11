@@ -15,7 +15,7 @@ prog = re.compile('\d{1,2}\.(.*)')
 def search(problem=None):
     assert(problem)
     url = 'https://www.baidu.com/s?wd=%s' % problem
-    os.system('google-chrome %s' % url)
+    os.system('/Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome %s' % url)
 
 # http://www.10tiao.com/html/761/201706/2650367001/1.html
 # pip install pytesseract 先安装依赖包
@@ -38,7 +38,9 @@ def recogProblem(img_path):
     text = pytesseract.image_to_string((region), lang='chi_sim')
     text = text.replace('\n', '')
     text = text.replace(' ', '')
-    text = prog.match(text).groups(1)[0]
+    match_res = prog.match(text)
+    if match_res:
+        text = match_res.groups(1)[0]
     print(text)
     search(problem=text)
 
